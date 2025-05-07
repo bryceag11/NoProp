@@ -36,7 +36,11 @@ during investigation, I'm change the implementations to improve the accuracy for
 Figure 6:Models used for training when the class embedding dimension is different from the image dimension. Left: model for the discrete-time case. Right: model for the continuous-time case. conv: convolutional layer. FC: fully connected layer (number in parentheses indicates units). concat: concatenation. pos emb: positional embedding (number in parentheses indicates time embedding dimension). When the class embedding dimension matches the image dimension, the noised label and the image are processed in the same way before concatenation in each model. Note that batch normalization is not included in the continuous-time model.
 
 current implementation  is slightly different. We leverage predefined ResNet Model instead of manual model. 
- 
+
+
+###  Added Support for Fashion-MNIST Dataset
+This implementation now includes support for the Fashion-MNIST dataset, which consists of 70,000 grayscale images of clothing items (28x28 pixels) across 10 classes. It provides a more challenging classification task than MNIST while keeping the same format.
+
 ## Usage 
  
 #### Quick Start 
