@@ -1,7 +1,7 @@
-# NoProp: Community Implementation
-Hyungon Ryu | Sr. Solution Architect | NVIDIA AI Technology Center Korea
+# NoProp: Fashion MNIST Implementation
+Bryce Grant
 
-It's an unofficial community-driven implementation of the NoProp method described in Li et al., "NoProp: Training Neural Networks without Back-propagation or Forward-propagation" [arXiv:2503.24322v1](https://arxiv.org/html/2503.24322v1)
+Code in this repository is heavily borrowed from this [repository](https://github.com/yhgon/NoProp/tree/main) with the theory described in Li et al., "NoProp: Training Neural Networks without Back-propagation or Forward-propagation" [arXiv:2503.24322v1](https://arxiv.org/html/2503.24322v1)
 
 ## Overview
 
