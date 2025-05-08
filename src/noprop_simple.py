@@ -277,6 +277,15 @@ def run_noprop_ct_inference_heun(model: NoPropCT, x: torch.Tensor, T_steps: int=
 # ----------------------------------------------------------------------------
 # train & eval loop per backbone + dataset
 # ----------------------------------------------------------------------------
+def repeat_channels(x):
+    return x.repeat(3,1,1)
+
+# Then in train_and_eval function:
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Lambda(repeat_channels),  # Use the named function
+    transforms.Normalize((0.1307,)*3, (0.3081,)*3),
+])
 def train_and_eval(backbone: str, time_emb_dim: int, embed_dim: int, dataset: str, data_root: str, epoches: int):
     print("start")    
     # dataset-specific setup
@@ -326,6 +335,21 @@ def train_and_eval(backbone: str, time_emb_dim: int, embed_dim: int, dataset: st
                 transforms.Normalize(mean, std),
             ]))
         num_classes = 100
+    elif dataset == 'fashion-mnist':
+        ds_train = torchvision.datasets.FashionMNIST(data_root, train=True, download=True,
+            transform=transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Lambda(repeat_channels),
+                transforms.Normalize((0.1307,)*3, (0.3081,)*3),
+            ]))
+        ds_test = torchvision.datasets.FashionMNIST(data_root, train=False, download=True,
+            transform=transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Lambda(repeat_channels),
+                transforms.Normalize((0.1307,)*3, (0.3081,)*3),
+            ]))
+        num_classes = 10    
+    
     else:
         raise ValueError(f"Unsupported dataset '{dataset}'")
 
@@ -395,7 +419,7 @@ def train_and_eval(backbone: str, time_emb_dim: int, embed_dim: int, dataset: st
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', choices=['mnist','cifar10','cifar100'], required=True)
+    parser.add_argument('--dataset', choices=['mnist','cifar10','cifar100', 'fashion-mnist'], required=True)
     parser.add_argument('--data-root', default='./data')
     parser.add_argument('--backbone', choices=['resnet18','resnet50','resnet152'], required=True)
     parser.add_argument('--time-emb-dim', type=int, default=64)
